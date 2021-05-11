@@ -219,11 +219,16 @@
                   </div>
                   
                 <script>
+                  
                   function myFunction() {
+                    console.log(231);
                     var slider = document.getElementById('slider-margin');
                     let val = slider.noUiSlider.get();
-                    document.getElementById("money") = val;
+                    document.getElementById("money").value = val;
                     console.log(val);
+                    console.log(document.getElementById("money").value);
+                    
+                    
                     
 
                     
@@ -237,6 +242,7 @@
                     class="submit"
                     id="submit"
                     name="submit"
+                    onclick="myFunction()"
                   />
                 </div>
               </form>
