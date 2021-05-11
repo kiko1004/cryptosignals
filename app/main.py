@@ -17,3 +17,7 @@ def signup():
 @app.route("/login")
 def signals():
     return render_template('login.html')
+
+@app.route("/premiumrequest/<data>")
+def route_two(data):
+  return render_template("premium.html", type=data)
