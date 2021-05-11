@@ -37,6 +37,14 @@
             })
     });
   }
+
+  
+ 
+                      
+
+
+
+
   $('#reset').on('click', function(){
       $('#register-form').reset();
   });
