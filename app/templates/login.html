@@ -57,6 +57,73 @@
       href="{{url_for('static', filename='60996bb5da776d66f73880c0_metric-webclip.png')}}"
       rel="apple-touch-icon"
     />
+
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      
+
+      input[type='text'],
+      input[type='password'] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+      }
+
+      button {
+        background-color: #04aa6d;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      button:hover {
+        opacity: 0.8;
+      }
+
+      .cancelbtn {
+        width: auto;
+        padding: 10px 18px;
+        background-color: #f44336;
+      }
+
+      .imgcontainer {
+        text-align: center;
+        margin: 24px 0 12px 0;
+      }
+
+      img.avatar {
+        width: 40%;
+        border-radius: 50%;
+      }
+
+      .container {
+        padding: 16px;
+      }
+
+      span.psw {
+        float: right;
+        padding-top: 16px;
+      }
+
+      /* Change styles for span and cancel button on extra small screens */
+      @media screen and (max-width: 300px) {
+        span.psw {
+          display: block;
+          float: none;
+        }
+        .cancelbtn {
+          width: 100%;
+        }
+      }
+    </style>
   </head>
   <body>
     <div
@@ -108,119 +175,37 @@
       <div class="w-slider-nav w-round"></div>
     </div>
     <!-- Body Here -->
-    <div id="top" class="section">
-      <div class="main">
-        <div class="container">
-          <div class="signup-content">
-            <div class="signup-img">
-              <img
-                src="{{url_for('static', filename='images/form-img.jpg')}}"
-                alt=""
-              />
-              <div class="signup-img-content">
-                <h2>Register now</h2>
-              </div>
-            </div>
-            <div class="signup-form">
-              <form method="POST" class="register-form" id="register-form">
-                <div class="form-row">
-                  <div class="form-group">
-                    <div class="form-input">
-                      <label for="username" class="required"
-                        >Username</label
-                      >
-                      <input type="text" name="username" id="username" />
-                    </div>
-                    <div class="form-input">
-                     <label for="password" class="required"
-                       >Password</label
-                     >
-                     <input type="text" name="password" id="password" />
-                   </div>
-                    <div class="form-input">
-                      <label for="first_name" class="required"
-                        >First name</label
-                      >
-                      <input type="text" name="first_name" id="first_name" />
-                    </div>
-                    <div class="form-input">
-                      <label for="last_name" class="required">Last name</label>
-                      <input type="text" name="last_name" id="last_name" />
-                    </div>
-                    
-                    <div class="form-input">
-                      <label for="email" class="required">Email</label>
-                      <input type="text" name="email" id="email" />
-                    </div>
-                    
-                  </div>
-                  <div class="form-group">
-                     <div class="form-input">
-                        <label for="phone_number" class="required"
-                          >Phone number</label
-                        >
-                        <input
-                          type="text"
-                          name="phone_number"
-                          id="phone_number"
-                        />
-                      </div>
-                     <div class="form-input">
-                        <label for="company"
-                          >Company (optional)</label
-                        >
-                        <input type="text" name="company" id="company" />
-                      </div>
-                    <div class="form-select">
-                      <div class="label-flex">
-                        <label for="meal_preference">Previous experience</label>
-                      </div>
-                      <div class="select-list">
-                        <select name="meal_preference" id="meal_preference">
-                          <option value="FOREX">
-                            I don't have previous experience
-                          </option>
-                          <option value="FOREX">FOREX</option>
-                          <option value="Crypto">Crypto</option>
-                          <option value="Stocks">Stocks</option>
-                          <option value="Commodities">Commodities</option>
-                        </select>
-                      </div>
-                    </div>
+    <div style="max-width:100% ;background-color: white;" class="section">
+      <h2>Login Form</h2>
 
-                    <div class="form-input">
-                      <label for="chequeno">Bot check (7+3=?)</label>
-                      <input type="text" name="chequeno" id="chequeno" />
-                    </div>
-                    <div class="form-input">
-                      <label for="blank_name"
-                        >Refferal Code (optional)</label
-                      >
-                      <input type="text" name="blank_name" id="blank_name" />
-                    </div>
-                  </div>
-                </div>
-                <div class="donate-us">
-                  <label>Monthly Profit Target</label>
-                  <div class="price_slider ui-slider ui-slider-horizontal">
-                    <div id="slider-margin"></div>
-                    <span class="donate-value" id="value-lower"></span>
-                  </div>
-                </div>
-                <div class="form-submit">
-                  <input
-                    type="submit"
-                    value="Submit"
-                    class="submit"
-                    id="submit"
-                    name="submit"
-                  />
-                </div>
-              </form>
-            </div>
-          </div>
+      <form action="/loginpost" method="post">
+        <div class="imgcontainer">
+          <img style="max-width: 250px;" src="{{url_for('static', filename='img_avatar2.png')}}" alt="Avatar" class="avatar" />
         </div>
-      </div>
+
+        <div class="container">
+          <label style="color: black;" for="uname"><b>Username</b></label>
+          <input
+            type="text"
+            placeholder="Enter Username"
+            name="uname"
+            required
+          />
+
+          <label style="color: black;" for="psw"><b></b>Password</b></label>
+          <input
+            type="password"
+            placeholder="Enter Password"
+            name="psw"
+            required
+          />
+
+          <button type="submit">Login</button>
+          
+        </div>
+
+        
+      </form>
     </div>
 
     <!-- Body Ends Here -->

@@ -14,6 +14,6 @@ def home():
 def signup():
     return render_template('signup.html')
 
-@app.route("/signals")
+@app.route("/login")
 def signals():
-    return render_template('signup.html')
+    return render_template('login.html')
