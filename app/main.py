@@ -90,12 +90,38 @@ def signupfree():
         db.session.add(newmember)
         try:
             db.session.commit()
+            resp = make_response(render_template("login.html"))
+            resp.set_cookie('username', username)
+
+            return resp
         except:
             db.session.rollback()
 
 
-
-
-
-
     return render_template('signup.html')
+
+@app.route("/premiumrequest/signuppremium", methods=["GET", "POST"])
+def signuppremium():
+    if request.method == "POST":
+        req = request.form
+        first_name = req.get("first_name")
+        last_name = req.get("last_name")
+        email = req.get("email")
+        country = req.get("country")
+        phone_number = req.get("phone_number")
+        prevex = req.get("meal_preference")
+        reff = req.get("reff")
+        company = req.get("company")
+        money = req.get("money")
+        newmember = premiummember(name=first_name, surname=last_name,
+                               email=email, phone=phone_number, country=country, company=company, experience=prevex,
+                               referalcode=reff, targetmoney=money)
+        db.session.add(newmember)
+        try:
+            db.session.commit()
+            resp = make_response(render_template("login.html"))
+
+
+            return resp
+        except:
+            db.session.rollback()
