@@ -62,7 +62,6 @@
       body {
         font-family: Arial, Helvetica, sans-serif;
       }
-      
 
       input[type='text'],
       input[type='password'] {
@@ -175,41 +174,144 @@
       <div class="w-slider-nav w-round"></div>
     </div>
     <!-- Body Here -->
-    <div style="max-width:100% ;background-color: white;" class="section">
-      <h2>Login Form</h2>
+    <style>
+      #tradingview_4893b {
+        height: 500px !important;
+      }
 
-      <form action="/loginpost" method="post">
-        <div class="imgcontainer">
-          <img style="max-width: 250px;" src="{{url_for('static', filename='img_avatar2.png')}}" alt="Avatar" class="avatar" />
+      input[type='text'],
+      select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      input[type='submit'] {
+        width: 100%;
+        background-color: #4caf50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      input[type='submit']:hover {
+        background-color: #45a049;
+      }
+
+      #request {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+      }
+    </style>
+
+    {%if isLoggedin == 'True'%}
+
+    <div class="section main">
+      <h1 style="text-align: center">Welcome {{username}}!</h1>
+      <h5 style="text-align: center">You have {{signals}} left</h5>
+      <a
+        href="/signals#request"
+        style="width: 500px; max-width: 100%; text-align: center; margin: auto"
+        class="button in-pricing"
+        >Request a signal</a
+      >
+    </div>
+
+    <div class="section" style="max-width: 100%; height: 800px">
+      <!-- TradingView Widget BEGIN -->
+      <div
+        class="tradingview-widget-container"
+        style="
+          width: 1800px;
+          height: 100%;
+          max-width: 100%;
+          margin: auto;
+          text-align: center;
+        "
+      >
+        <div id="tradingview_4893b"></div>
+        <div class="tradingview-widget-copyright">
+          <a
+            href="https://www.tradingview.com/symbols/NASDAQ-AAPL/"
+            rel="noopener"
+            target="_blank"
+            ><span class="blue-text">AAPL Chart</span></a
+          >
+          by TradingView
         </div>
-
-        <div class="container">
-          <label style="color: black;" for="username"><b>Username</b></label>
+        <script
+          type="text/javascript"
+          src="https://s3.tradingview.com/tv.js"
+        ></script>
+        <script type="text/javascript">
+          new TradingView.widget({
+            autosize: true,
+            symbol: 'NASDAQ:AAPL',
+            interval: 'D',
+            timezone: 'Etc/UTC',
+            theme: 'dark',
+            style: '1',
+            locale: 'en',
+            toolbar_bg: '#f1f3f6',
+            enable_publishing: false,
+            allow_symbol_change: true,
+            container_id: 'tradingview_4893b',
+          });
+        </script>
+      </div>
+      <!-- TradingView Widget END -->
+    </div>
+    <div class="section">
+      <div
+        id="request"
+        style="
+          margin: auto;
+          background-color: white;
+          min-width: 350px;
+          width: 34%;
+          padding: 25px 25px 25px 25px;
+          border-radius: 7px;
+          box-shadow: 10px 18px 52px -22px rgb(0 0 0 / 75%);
+          margin-top: 25px;
+          margin-bottom: 25px;
+        "
+      >
+        <form method="POST" action="/requestsignal">
+          <label for="coin">Coin</label>
           <input
             type="text"
-            id="username"
-            placeholder="Enter Username"
-            name="username"
-            value="{{username if username}}"
-            required
+            id="coin"
+            name="coin"
+            placeholder="Enter the coin's name or ticker ..."
           />
 
-          <label style="color: black;" for="password"><b></b>Password</b></label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter Password"
-            name="password"
-            required
-          />
+          <label for="typeofanal">Type of Analysis</label>
+          <select id="typeofanal" name="typeofanal">
+            <option value="Fundamental">Fundamental</option>
+            <option value="PriceAction">Price Action</option>
+            <option value="Sentiment">Sentiment</option>
+          </select>
 
-          <button type="submit">Login</button>
-          
-        </div>
-
-        
-      </form>
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
     </div>
+
+    {% else %}
+    <div class="section main">
+      <h1 style="text-align: center">
+        You can create a free account <a href="/signup">here</a>
+      </h1>
+    </div>
+    {% endif %}
 
     <!-- Body Ends Here -->
     <div class="section footer">

@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 from sqlalchemy_utils.functions import database_exists
 from dotenv import load_dotenv
+from datetime import date
 try:
     load_dotenv()
 except:
@@ -22,7 +23,7 @@ db = SQLAlchemy(app)
 
 class freemember(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80))
+    username = db.Column(db.String(80), unique = True)
     password = db.Column(db.String(80))
     name = db.Column(db.String(120))
     surname = db.Column(db.String(120))
@@ -47,6 +48,13 @@ class premiummember(db.Model):
     referalcode = db.Column(db.String(120))
     targetmoney = db.Column(db.String(120))
 
+class requestedsignals(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.String(120))
+    coin = db.Column(db.String(120))
+    typeofanalysis = db.Column(db.String(120))
+    date = db.Column(db.String(120))
+
 
 db.create_all()
 
@@ -61,8 +69,9 @@ def signup():
     return render_template('signup.html')
 
 @app.route("/login")
-def signals():
-    return render_template('login.html')
+def login():
+    username = request.cookies.get('username')
+    return render_template('login.html', username=username)
 
 @app.route("/premiumrequest/<data>")
 def route_two(data):
@@ -90,7 +99,7 @@ def signupfree():
         db.session.add(newmember)
         try:
             db.session.commit()
-            resp = make_response(render_template("login.html"))
+            resp = make_response(render_template("login.html", username=username))
             resp.set_cookie('username', username)
 
             return resp
@@ -119,9 +128,70 @@ def signuppremium():
         db.session.add(newmember)
         try:
             db.session.commit()
-            resp = make_response(render_template("login.html"))
 
-
-            return resp
         except:
             db.session.rollback()
+
+@app.route("/loginpost", methods=["GET", "POST"])
+def loginpost():
+    if request.method == "POST":
+        req = request.form
+        username = req.get("username")
+        password = req.get("password")
+        logeduser = freemember.query.filter(freemember.username == username).first()
+        if logeduser is not None:
+            if logeduser.password == password:
+                resp = make_response(render_template("index.html"))
+                resp.set_cookie('username', username)
+                resp.set_cookie('isLoggedin', "True")
+                return resp
+            elif logeduser is not None:
+                return "<h1>Wrong Password</h1>"
+        else:
+            return "<h1>No such User</h1>"
+
+@app.route("/signals")
+def signals():
+    username = request.cookies.get('username')
+    isLoggedin = request.cookies.get('isLoggedin')
+    logeduser = freemember.query.filter(freemember.username == username).first()
+    signals = logeduser.signals
+
+
+    return render_template('signals.html', username=username, isLoggedin = isLoggedin, signals=signals)
+
+
+@app.route("/requestsignal", methods=["GET", "POST"])
+def signalsrequest():
+    username = request.cookies.get('username')
+    isLoggedin = request.cookies.get('isLoggedin')
+    logeduser = freemember.query.filter(freemember.username == username).first()
+    signals = logeduser.signals
+    if request.method == "POST":
+        req = request.form
+        coin = req.get("coin")
+        analysis = req.get("typeofanal")
+        signals = signals - 1
+        logeduser.signals = signals
+        db.session.commit()
+        today = date.today()
+        d1 = today.strftime("%d/%m/%Y")
+
+
+
+
+
+        newrequest = requestedsignals(user=username, coin=coin, typeofanalysis=analysis, date=d1)
+        db.session.add(newrequest)
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+
+        return "<h1> Signal Requested! You will soon receive a SMS</h1>"
+
+
+
+    return render_template('signals.html', username=username, isLoggedin = isLoggedin, signals=signals)
+
+
