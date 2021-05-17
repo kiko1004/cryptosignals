@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+        </style>
+        </head>
+    <body>
+        {% if adminpass == "Albion" %}
+        <h1>Free users</h1>
+
+        <table>
+            <tr>
+              <th>Username</th>
+              <th>name</th>
+              <th>surname</th>
+              <th>email</th>
+              <th>phone</th>
+              <th>country</th>
+              <th>company</th>
+              <th>Money Target</th>
+              <th>Signals Left</th>
+            </tr>
+            {% for user in  freeusers%}
+            <tr>
+              <td>{{user.username}}</td>
+              <td>{{user.name}}</td>
+              <td>{{user.surname}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.phone}}</td>
+              <td>{{user.country}}</td>
+              <td>{{user.company}}</td>
+              <td>{{user.targetmoney}}</td>
+              <td>{{user.signals}}</td>
+
+            </tr>
+            {% endfor %}
+            
+          </table>
+          
+
+          <h1>Premium requested users</h1>
+
+        <table>
+            <tr>
+             
+              <th>name</th>
+              <th>surname</th>
+              <th>email</th>
+              <th>phone</th>
+              <th>country</th>
+              <th>company</th>
+              <th>Type</th>
+              
+            </tr>
+            {% for user in  premiumusers%}
+            <tr>
+              
+              <td>{{user.name}}</td>
+              <td>{{user.surname}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.phone}}</td>
+              <td>{{user.country}}</td>
+              <td>{{user.company}}</td>
+              <td>{{user.targetmoney}}</td>
+              
+
+            </tr>
+            {% endfor %}
+            
+          </table>
+          
+          <h1>Signals Requests</h1>
+
+          <table>
+              <tr>
+               
+                <th>user</th>
+                <th>coin</th>
+                <th>typeofanalysis</th>
+                <th>date</th>
+                
+              </tr>
+              {% for user in  requests%}
+              <tr>
+                
+                <td>{{user.user}}</td>
+                <td>{{user.coin}}</td>
+                <td>{{user.typeofanalysis}}</td>
+                <td>{{user.date}}</td>
+                
+                
+  
+              </tr>
+              {% endfor %}
+              
+            </table>
+
+
+
+        {% else %}
+        <form method="post">
+            <input id="adminpass" name="adminpass" type="text" />
+        </form>
+        {% endif %}
+    </body>
+</html>
